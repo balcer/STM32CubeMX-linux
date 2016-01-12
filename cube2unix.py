@@ -12,6 +12,8 @@ def dos2unix():
                string.endswith(".s") or \
                string.endswith(".launch"):
                 call(["dos2unix", os.path.join(_file[0], string)])
+                call(["indent", os.path.join(_file[0], string)])
+                call(["rm", os.path.join(_file[0], string + "~")])
             else:
                 print "skipping: %s" %string
 
