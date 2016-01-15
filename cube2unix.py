@@ -23,6 +23,13 @@ def fix_indent():
                 call(["indent", os.path.join(_file[0], string)])
                 call(["rm", os.path.join(_file[0], string + "~")])
 
+def file_cleanup():
+    """move and delate files in project"""
+    call(["mv", "SW4STM32/bist-122 Configuration/STM32F030F4Px_FLASH.ld", "Drivers/"])
+    call(["rm", "-r", "SW4STM32"])
+    call(["rm", ".mxproject"])
+
 if __name__ == "__main__":
     dos2unix()
     fix_indent()
+    file_cleanup()
