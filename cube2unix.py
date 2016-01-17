@@ -14,6 +14,16 @@ def get_project_name():
     if file_found == False:
         sys.exit("No CubeMX project file")
 
+def get_mcu_name(project_name):
+    """seek for mcu name in CubeMX project file"""
+    with open(project_name + ".ioc") as _file:
+        lines = _file.readlines()
+    for string in lines:
+        if string[0] != '#':
+            name, value = string.split('=')
+            if name == "Mcu.Name":
+                return value
+
 def dos2unix():
     """convert Windows dos files to unix"""
     for _file in os.walk(os.getcwd()):
@@ -35,9 +45,9 @@ def fix_indent():
                 call(["indent", os.path.join(_file[0], string)])
                 call(["rm", os.path.join(_file[0], string + "~")])
 
-def file_cleanup(project_name):
+def file_cleanup(project_name, mcu_name):
     """move and delate files in project"""
-    ld_file_path = "SW4STM32/" + project_name + " Configuration/STM32F030F4Px_FLASH.ld"
+    ld_file_path = "SW4STM32/" + project_name + " Configuration/" + mcu_name +"_FLASH.ld"
     call(["mv", ld_file_path, "Drivers/"])
     call(["rm", "-r", "SW4STM32"])
     call(["rm", ".mxproject"])
@@ -45,9 +55,10 @@ def file_cleanup(project_name):
 def main():
     """main function"""
     project_name = get_project_name()
+    mcu_name = get_mcu_name(project_name)
     dos2unix()
     fix_indent()
-    file_cleanup(project_name)
+    file_cleanup(project_name, mcu_name)
 
 if __name__ == "__main__":
     main()
