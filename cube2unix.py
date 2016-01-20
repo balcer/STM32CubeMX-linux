@@ -22,7 +22,7 @@ def get_mcu_name(project_name):
         if string[0] != '#':
             name, value = string.split('=')
             if name == "Mcu.Name":
-                return value
+                return value[:-1]
 
 def dos2unix():
     """convert Windows dos files to unix"""
