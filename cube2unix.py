@@ -21,7 +21,7 @@ def get_mcu_name(project_name):
     for string in lines:
         if string[0] != '#':
             name, value = string.split('=')
-            if name == "Mcu.Name":
+            if name == "Mcu.UserName":
                 return value[:-1]
 
 def dos2unix():
