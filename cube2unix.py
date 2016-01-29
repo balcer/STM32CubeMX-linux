@@ -42,7 +42,7 @@ def fix_indent():
     for _file in os.walk(os.getcwd()):
         for string in _file[2]:
             if string.endswith(".c"):
-                call(["indent", os.path.join(_file[0], string)])
+                call(["indent", "-kr", os.path.join(_file[0], string)])
                 call(["rm", os.path.join(_file[0], string + "~")])
 
 def file_cleanup(project_name, mcu_name):
