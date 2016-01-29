@@ -45,6 +45,16 @@ def fix_indent():
                 call(["indent", "-kr", os.path.join(_file[0], string)])
                 call(["rm", os.path.join(_file[0], string + "~")])
 
+def fix_whitespaces():
+    """remove trailing whitespaces"""
+    for _file in os.walk(os.getcwd()):
+        for string in _file[2]:
+            if string.endswith(".c") or \
+               string.endswith(".s") or \
+               string.endswith(".ld") or \
+               string.endswith(".h"):
+                call(["sed", "-i", "s/[[:blank:]]*$//", os.path.join(_file[0], string)])
+
 def file_cleanup(project_name, mcu_name):
     """move and delate files in project"""
     ld_file_path = "SW4STM32/" + project_name + " Configuration/" + mcu_name +"_FLASH.ld"
@@ -58,6 +68,7 @@ def main():
     mcu_name = get_mcu_name(project_name)
     dos2unix()
     fix_indent()
+    fix_whitespaces()
     file_cleanup(project_name, mcu_name)
 
 if __name__ == "__main__":
